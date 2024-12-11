@@ -1,0 +1,1 @@
+ALTER TABLE people ADD rg VARCHAR(10);
