@@ -5,12 +5,18 @@ import br.com.SmallManager.records.PeopleDTO;
 import br.com.SmallManager.service.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/")
+@RequestMapping("/people")
 public class PeopleController {
 
     private final PeopleService peopleService;
@@ -20,8 +26,8 @@ public class PeopleController {
     }
 
     @GetMapping
-    public String hello(){
-        return "Hello World";
+    public ResponseEntity<Page<PeopleDTO>> listAll(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(peopleService.listAllPeoples(pageable).map(PeopleDTO::new));
     }
 
     @GetMapping("/sobre")
@@ -29,7 +35,7 @@ public class PeopleController {
         return "Hey, what your name?";
     }
 
-    @PostMapping("/people")
+    @PostMapping
     public ResponseEntity<People> salvar(@RequestBody @Valid PeopleDTO peopleDTO){
         try{
             var people = new People();
