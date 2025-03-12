@@ -1,5 +1,5 @@
-CREATE TABLE IF NOT EXISTS SystemUser (
-    id uuid unique not null,
+CREATE TABLE IF NOT EXISTS userss (
+    id uuid DEFAULT gen_random_uuid() not null,
     name varchar (150),
     password varchar(255),
     primary key(id)

@@ -2,6 +2,7 @@ package br.com.SmallManager.service;
 
 import br.com.SmallManager.domain.People;
 import br.com.SmallManager.repository.PeopleRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class PeopleService {
        return peopleRepository.save(people);
     }
 
-    public List<People> listAllPeoples(@PageableDefault(size = 10) Pageable pageable){
-        return peopleRepository.findAll(pageable).stream().toList();
+    public Page<People> listAllPeoples(Pageable pageable){
+        return peopleRepository.findAll(pageable);
     }
 }
