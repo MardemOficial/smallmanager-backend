@@ -4,8 +4,8 @@ import br.com.SmallManager.domain.SystemUser;
 import br.com.SmallManager.infra.security.TokenService;
 import br.com.SmallManager.records.DataTokenDTO;
 import br.com.SmallManager.records.LoginUserDTO;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/login")
-@Tag(name = "autenticacao")
+@RequestMapping("/authorization")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
-
-    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService) {
-        this.authenticationManager = authenticationManager;
-        this.tokenService = tokenService;
-    }
 
     @PostMapping
     public ResponseEntity<Object> login(@RequestBody @Valid LoginUserDTO loginUserDTO){
