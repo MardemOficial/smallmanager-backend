@@ -1,4 +1,4 @@
-package br.com.SmallManager.domain;
+package br.com.SmallManager.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
