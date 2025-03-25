@@ -1,19 +1,16 @@
 package br.com.SmallManager.controller;
 
-import br.com.SmallManager.domain.People;
+import br.com.SmallManager.model.People;
 import br.com.SmallManager.records.PeopleDTO;
 import br.com.SmallManager.service.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/people")

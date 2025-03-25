@@ -1,6 +1,6 @@
 package br.com.SmallManager.infra.security;
 
-import br.com.SmallManager.domain.SystemUser;
+import br.com.SmallManager.model.SystemUser;
 import br.com.SmallManager.repository.SystemUserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

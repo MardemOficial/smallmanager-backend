@@ -1,6 +1,6 @@
 package br.com.SmallManager.records;
 
-import br.com.SmallManager.domain.People;
+import br.com.SmallManager.model.People;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

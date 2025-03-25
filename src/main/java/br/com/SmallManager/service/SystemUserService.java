@@ -1,6 +1,6 @@
 package br.com.SmallManager.service;
 
-import br.com.SmallManager.domain.SystemUser;
+import br.com.SmallManager.model.SystemUser;
 import br.com.SmallManager.repository.SystemUserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

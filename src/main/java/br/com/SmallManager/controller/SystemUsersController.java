@@ -1,6 +1,6 @@
 package br.com.SmallManager.controller;
 
-import br.com.SmallManager.domain.SystemUser;
+import br.com.SmallManager.model.SystemUser;
 import br.com.SmallManager.records.SystemUserDTO;
 import br.com.SmallManager.service.SystemUserService;
 import jakarta.validation.Valid;

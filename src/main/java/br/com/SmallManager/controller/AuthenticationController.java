@@ -1,6 +1,6 @@
 package br.com.SmallManager.controller;
 
-import br.com.SmallManager.domain.SystemUser;
+import br.com.SmallManager.model.SystemUser;
 import br.com.SmallManager.infra.security.TokenService;
 import br.com.SmallManager.records.DataTokenDTO;
 import br.com.SmallManager.records.LoginUserDTO;
