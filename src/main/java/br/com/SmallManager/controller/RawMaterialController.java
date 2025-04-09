@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rawmaterial")
 public class RawMaterialController extends GenericController<RawMaterialModel, RawMaterialDTO>{
 
-        public RawMaterialController(RawMaterialService service){
-            super(service, RawMaterialModel.class);
-        }
+    public RawMaterialController(RawMaterialService service) {
+        super(service);
     }
+
+}
