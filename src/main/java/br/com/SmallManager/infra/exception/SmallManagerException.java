@@ -2,7 +2,6 @@ package br.com.SmallManager.infra.exception;
 
 
 import br.com.SmallManager.records.ExceptionResponseDTO;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,19 +20,19 @@ public class SmallManagerException {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity exception400(MethodArgumentNotValidException ex){
+    public ResponseEntity<List<ExceptionResponseDTO>> exception400(MethodArgumentNotValidException ex){
         List<FieldError> erros = ex.getFieldErrors();
 
         return ResponseEntity.badRequest().body(erros.stream().map(ExceptionResponseDTO::new).toList());
     }
 
-    @ExceptionHandler({BadCredentialsException.class, TokenExpiredException.class})
-    public ResponseEntity exception403(BadCredentialsException ex){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> exception403(BadCredentialsException ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity exception404(){
+    public ResponseEntity<String> exception404(){
         return ResponseEntity.notFound().build();
     }
 
