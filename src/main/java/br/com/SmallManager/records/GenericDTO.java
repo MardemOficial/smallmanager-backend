@@ -1,10 +1,11 @@
 package br.com.SmallManager.records;
 
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
-public record GenericDTO<T>(@NotNull  T entity) {
+public record GenericDTO<T>(@JsonUnwrapped  T entity) {
 
-    public GenericDTO(@NotNull T entity) {
+    public GenericDTO(T entity) {
         this.entity = entity;
     }
+
 }

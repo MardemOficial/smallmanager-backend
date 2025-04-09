@@ -2,10 +2,13 @@ package br.com.SmallManager.infra.security;
 
 import br.com.SmallManager.model.SystemUser;
 import br.com.SmallManager.repository.SystemUserRepository;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,37 +16,38 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.net.http.HttpTimeoutException;
 
+@RequiredArgsConstructor
 @Component
 public class TokenAcessFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private final SystemUserRepository systemUserRepository;
 
-    public TokenAcessFilter(TokenService tokenService, SystemUserRepository systemUserRepository) {
-        this.tokenService = tokenService;
-        this.systemUserRepository = systemUserRepository;
-    }
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = getTokenRequest(request);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        try {
+            String token = getTokenRequest(request);
 
-        if(token != null){
-            String name = tokenService.verifyToken(token).orElseThrow();
+            if(token != null){
 
-            if(name.contains("expired")){
-                throw new HttpTimeoutException("Requisição expirou!");
+                String name = tokenService.verifyToken(token).orElseThrow();
+
+                SystemUser systemUser = systemUserRepository.findByName(name).get();
+
+                Authentication authentication = new UsernamePasswordAuthenticationToken(systemUser, null, systemUser.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
             }
 
-            SystemUser systemUser = systemUserRepository.findByName(name).get();
+            filterChain.doFilter(request, response);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(systemUser, null, systemUser.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        }catch (JWTVerificationException | JWTCreationException jwt){
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
+            response.getWriter().write(jwt.getMessage());
         }
-        filterChain.doFilter(request, response);
+
     }
 
     private String getTokenRequest(HttpServletRequest request) {
