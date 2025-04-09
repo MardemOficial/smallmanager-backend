@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record RawMaterialDTO(
-        
+
         UUID id,
 
         @NotBlank(message = "Código é necessário")
@@ -19,7 +19,9 @@ public record RawMaterialDTO(
         String description,
 
         @NotNull
-        @Min(value = 10, message = "Não pode ser um valor menor que zero")
+        @Min(value = 0, message = "Não pode ser um valor menor que zero")
         @Max(value = 200, message="Não pode ser maior que duzentos")
-        BigDecimal price) {
+        BigDecimal price
+        ) {
+
 }
