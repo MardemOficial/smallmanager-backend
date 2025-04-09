@@ -1,10 +1,11 @@
 package br.com.SmallManager.infra.security;
 
-import br.com.SmallManager.model.SystemUser;
 import br.com.SmallManager.infra.ParameterProperties;
+import br.com.SmallManager.model.SystemUser;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import lombok.extern.slf4j.Slf4j;
@@ -40,15 +41,20 @@ public class TokenService {
     }
 
     public Optional<String> verifyToken(String token){
-        DecodedJWT decodedJWT;
 
-        Algorithm algorithm =  Algorithm.HMAC256(parameterProperties.getTokenApplication());
-        JWTVerifier verifier = JWT.require(algorithm)
-                .withIssuer("SmallManager")
-                .build();
+        try {
+            DecodedJWT decodedJWT;
 
-        decodedJWT = verifier.verify(token);
-        return Optional.of(decodedJWT.getSubject());
+            Algorithm algorithm = Algorithm.HMAC256(parameterProperties.getTokenApplication());
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("SmallManager")
+                    .build();
+
+            decodedJWT = verifier.verify(token);
+            return Optional.of(decodedJWT.getSubject());
+        }catch(TokenExpiredException tee){
+            throw new TokenExpiredException("Token expirado!", Instant.now());
+        }
 
     }
 
