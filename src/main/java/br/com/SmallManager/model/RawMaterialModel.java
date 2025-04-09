@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,8 +15,11 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @Entity
 @Table(name = "rawmaterial")
-public class RawMaterialModel extends GenericEntityModel{
+public class RawMaterialModel{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String code;
     private String description;
     private BigDecimal price;
