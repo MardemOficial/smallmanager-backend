@@ -34,6 +34,6 @@ public class AuthenticationController {
         String tokenAcess = tokenService.generateToken(systemUser);
         String refreshToken = tokenService.generateRefreshToken(systemUser);
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new DataTokenDTO(tokenAcess, refreshToken));
+        return ResponseEntity.status(HttpStatus.OK).body(new DataTokenDTO(tokenAcess, refreshToken));
     }
 }
