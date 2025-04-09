@@ -2,17 +2,15 @@ package br.com.SmallManager.service;
 
 import br.com.SmallManager.repository.IGenericRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@Service
-public class GenericService<T> {
+public abstract class GenericService<T> {
 
     private final IGenericRepository<T> repository;
 
@@ -24,12 +22,16 @@ public class GenericService<T> {
         return repository.findById(id);
     }
 
+    public Optional<T> findByOne(T entity){
+        return repository.findOne(Example.of(entity));
+    }
+
     public Optional<Page<T>> findAll(Pageable pageable){
         return Optional.of(repository.findAll(pageable));
     }
 
-    public void delete(UUID id){
-        repository.deleteById(id);
+    public void delete(T entity){
+        repository.delete(entity);
     }
 
 }
